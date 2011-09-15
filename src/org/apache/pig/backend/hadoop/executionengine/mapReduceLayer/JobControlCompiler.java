@@ -37,12 +37,15 @@ import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapred.JobPriority;
 import org.apache.hadoop.mapred.jobcontrol.Job;
 import org.apache.hadoop.mapred.jobcontrol.JobControl;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
+import org.apache.hadoop.mapreduce.lib.ramp.Ramp;
 import org.apache.hadoop.util.RunJar;
 import org.apache.pig.ComparisonFunc;
 import org.apache.pig.ExecType;
@@ -254,6 +257,7 @@ public class JobControlCompiler{
                     return null;
                 }
                 Job job = getJob(mro, conf, pigContext);
+                Ramp.setProvenanceCapture(job);
                 jobMroMap.put(job, mro);
                 jobCtrl.addJob(job);
             }

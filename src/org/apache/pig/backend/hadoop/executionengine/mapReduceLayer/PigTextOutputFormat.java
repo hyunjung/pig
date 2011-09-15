@@ -63,6 +63,13 @@ public class PigTextOutputFormat extends
         
         public synchronized void write(WritableComparable key, Tuple value)
                 throws IOException {
+            if (out instanceof FSDataOutputStream) {
+              position.set(((FSDataOutputStream) out).getPos());
+            } else {
+              position.set(out.size());
+            }
+
+
                 int sz = value.size();
                 for (int i = 0; i < sz; i++) {
                     StorageUtil.putField(out, value.get(i));

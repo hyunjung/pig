@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.JobContext;
@@ -139,6 +141,16 @@ public class PigOutputFormat extends OutputFormat<WritableComparable, Tuple> {
                 sFunc.putNext(value);
             } else {
                 throw new IOException("Internal Error: Unexpected code path");
+            }
+        }
+
+        @Override
+        public Writable getCurrentID()
+                throws IOException, InterruptedException {
+            if(mode == Mode.SINGLE_STORE) {
+                return wrappedWriter.getCurrentID();
+            } else {
+                return super.getCurrentID();
             }
         }
 

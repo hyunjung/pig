@@ -29,6 +29,7 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
+import org.apache.hadoop.mapreduce.lib.ramp.file.FilePosition;
 import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.DataReaderWriter;
 import org.apache.pig.data.DataType;
@@ -48,6 +49,7 @@ public class BinStorageRecordReader extends RecordReader<Text, Tuple> {
   public static final int RECORD_2 = 0x02;
   public static final int RECORD_3 = 0x03;
   private DataInputStream inData = null;
+  private FilePosition provenance;
 
   public void initialize(InputSplit genericSplit,
                          TaskAttemptContext context) throws IOException {
@@ -65,6 +67,8 @@ public class BinStorageRecordReader extends RecordReader<Text, Tuple> {
     }
     in = new BufferedPositionedInputStream(fileIn, start);
     inData = new DataInputStream(in);
+
+    provenance = new FilePosition(file.toString(), start);
   }
   
   public boolean nextKeyValue() throws IOException {
@@ -106,6 +110,7 @@ public class BinStorageRecordReader extends RecordReader<Text, Tuple> {
       try {
           // if we got here, we have seen RECORD_1-RECORD_2-RECORD_3-TUPLE_MARKER
           // sequence - lets now read the contents of the tuple 
+          provenance.setPosition(in.getPosition() - 4);
           value = (Tuple)DataReaderWriter.readDatum(inData, DataType.TUPLE);
           return true;
       } catch (ExecException ee) {
@@ -124,6 +129,11 @@ public class BinStorageRecordReader extends RecordReader<Text, Tuple> {
   @Override
   public Tuple getCurrentValue() {
     return value;
+  }
+
+  @Override
+  public FilePosition getCurrentID() {
+    return provenance;
   }
 
   /**

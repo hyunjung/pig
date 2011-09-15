@@ -484,7 +484,7 @@ public class FileLocalizer {
         if (relativeRoot.get() == null) {
             String tdir= pigContext.getProperties().getProperty("pig.temp.dir", "/tmp");
             relativeRoot.set(pigContext.getDfs().asContainer(tdir + "/temp" + r.nextInt()));
-            toDelete().push(relativeRoot.get());
+            //toDelete().push(relativeRoot.get());
         }
 
         return relativeRoot.get();
@@ -518,7 +518,7 @@ public class FileLocalizer {
         }
         ElementDescriptor elem= 
             pigContext.getDfs().asElement(relative.toString(), "tmp" + r.nextInt());
-        toDelete().push(elem);
+        //toDelete().push(elem);
         return elem;
     }
 
@@ -530,7 +530,7 @@ public class FileLocalizer {
         }
         ElementDescriptor elem= 
             pigContext.getDfs().asElement(relative.toString(), "tmp" + r.nextInt());
-        toDelete().push(elem);
+        //toDelete().push(elem);
         return ((HPath)elem).getPath();
     }
     

@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Counter;
 import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.InputSplit;
@@ -143,6 +144,11 @@ public class PigRecordReader extends RecordReader<Text, Tuple> {
         }
        
         return curValue;
+    }
+
+    @Override
+    public Writable getCurrentID() throws IOException, InterruptedException {
+      return curReader.getCurrentID();
     }
 
     @Override

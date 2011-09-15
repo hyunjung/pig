@@ -20,6 +20,8 @@ package org.apache.pig.impl.io;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
@@ -41,6 +43,7 @@ public class BinStorageRecordWriter extends
      * the outputstream to write out on
      */
     private DataOutputStream out;
+    private LongWritable position = new LongWritable(0);
     
     /**
      * 
@@ -64,12 +67,23 @@ public class BinStorageRecordWriter extends
     @Override
     public void write(WritableComparable wc, Tuple t) throws IOException,
             InterruptedException {
+        if (out instanceof FSDataOutputStream) {
+          position.set(((FSDataOutputStream) out).getPos());
+        } else {
+          position.set(out.size());
+        }
+
         // we really only want to write the tuple (value) out here
         out.write(RECORD_1);
         out.write(RECORD_2);
         out.write(RECORD_3);
         DataReaderWriter.writeDatum(out, t);
         
+    }
+
+    @Override
+    public LongWritable getCurrentID() throws IOException {
+      return position;
     }
 
 }
