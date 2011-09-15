@@ -25,6 +25,7 @@ import org.apache.hadoop.mapreduce.OutputFormat;
 import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.TaskInputOutputContext;
+import org.apache.hadoop.mapreduce.task.TaskAttemptContextImpl;
 import org.apache.pig.StoreFuncInterface;
 import org.apache.pig.backend.hadoop.executionengine.physicalLayer.relationalOperators.POStore;
 import org.apache.pig.backend.hadoop.executionengine.physicalLayer.relationalOperators.POStoreImpl;
@@ -58,7 +59,7 @@ public class MapReducePOStoreImpl extends POStoreImpl {
         // task (map or reduce) we could have multiple stores, we should
         // make this copy so that the same context does not get over-written
         // by the different stores.
-        this.context = new TaskAttemptContext(outputConf, 
+        this.context = new TaskAttemptContextImpl(outputConf, 
                 context.getTaskAttemptID());
     }
     

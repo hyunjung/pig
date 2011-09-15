@@ -39,6 +39,7 @@ import org.apache.hadoop.mapred.RunningJob;
 import org.apache.hadoop.mapred.jobcontrol.Job;
 import org.apache.hadoop.mapred.jobcontrol.JobControl;
 import org.apache.hadoop.mapreduce.JobContext;
+import org.apache.hadoop.mapreduce.task.JobContextImpl;
 import org.apache.pig.ExecType;
 import org.apache.pig.PigException;
 import org.apache.pig.PigWarning;
@@ -559,7 +560,7 @@ public class MapReduceLauncher extends Launcher{
      * @throws IOException 
      */
     private void storeSchema(Job job, POStore st) throws IOException {
-        JobContext jc = new JobContext(job.getJobConf(), 
+        JobContext jc = new JobContextImpl(job.getJobConf(), 
                 new org.apache.hadoop.mapreduce.JobID());
         JobContext updatedJc = PigOutputCommitter.setUpContext(jc, st);
         PigOutputCommitter.storeCleanup(st, updatedJc.getConfiguration());

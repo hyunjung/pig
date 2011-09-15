@@ -38,6 +38,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
+import org.apache.hadoop.mapreduce.task.JobContextImpl;
 import org.apache.pig.ExecType;
 import org.apache.pig.FuncSpec;
 import org.apache.pig.IndexableLoadFunc;
@@ -266,7 +267,7 @@ public class PigInputFormat extends InputFormat<Text, Tuple> {
                 // get the InputFormat from it and ask for splits
                 InputFormat inpFormat = loadFunc.getInputFormat();
                 List<InputSplit> oneInputSplits = inpFormat.getSplits(
-                        new JobContext(inputSpecificJob.getConfiguration(), 
+                        new JobContextImpl(inputSpecificJob.getConfiguration(), 
                                 jobcontext.getJobID()));
                 List<InputSplit> oneInputPigSplits = getPigSplits(
                         oneInputSplits, i, inpTargets.get(i), fs.getDefaultBlockSize(), combinable, confClone);

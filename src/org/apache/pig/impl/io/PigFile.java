@@ -28,6 +28,8 @@ import org.apache.hadoop.mapreduce.OutputFormat;
 import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.TaskAttemptID;
+import org.apache.hadoop.mapreduce.task.JobContextImpl;
+import org.apache.hadoop.mapreduce.task.TaskAttemptContextImpl;
 import org.apache.pig.FuncSpec;
 import org.apache.pig.LoadFunc;
 import org.apache.pig.StoreFuncInterface;
@@ -70,7 +72,7 @@ public class PigFile {
     public void store(DataBag data, FuncSpec storeFuncSpec, PigContext pigContext) throws IOException {
         Configuration conf = ConfigurationUtil.toConfiguration(pigContext.getProperties());
         // create a simulated JobContext
-        JobContext jc = new JobContext(conf, new JobID());
+        JobContext jc = new JobContextImpl(conf, new JobID());
         StoreFuncInterface sfunc = (StoreFuncInterface)PigContext.instantiateFuncFromSpec(
                 storeFuncSpec);
         OutputFormat<?,?> of = sfunc.getOutputFormat();
@@ -80,7 +82,7 @@ public class PigFile {
         PigOutputFormat.setLocation(jc, store);
         OutputCommitter oc;
         // create a simulated TaskAttemptContext
-        TaskAttemptContext tac = new TaskAttemptContext(conf, new TaskAttemptID());
+        TaskAttemptContext tac = new TaskAttemptContextImpl(conf, new TaskAttemptID());
         PigOutputFormat.setLocation(tac, store);
         RecordWriter<?,?> rw ;
         try {

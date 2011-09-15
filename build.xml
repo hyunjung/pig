@@ -137,7 +137,9 @@
 	<property name="ivy.repo.dir" value="${user.home}/ivyrepo" />
     <property name="ivy.dir" location="ivy" />
     <loadproperties srcfile="${ivy.dir}/libraries.properties"/>
-    <property name="hadoop.jar" value="hadoop-core-${hadoop-core.version}.jar" />
+    <property name="hadoop-common.jar" value="hadoop-common-${hadoop-common.version}.jar" />
+    <property name="hadoop-hdfs.jar" value="hadoop-hdfs-${hadoop-hdfs.version}.jar" />
+    <property name="hadoop-mapred.jar" value="hadoop-mapred-${hadoop-mapred.version}.jar" />
 	<property name="asfrepo" value="https://repository.apache.org"/>
 	<property name="asfsnapshotrepo" value="${asfrepo}/content/repositories/snapshots"/>
 	<property name="mvnrepo" value="http://repo2.maven.org/maven2"/>
@@ -484,8 +486,11 @@
                     <attribute name="Svn-Revision" value="${svnString}" />
                 </section>
             </manifest>
-            <zipfileset src="${ivy.lib.dir}/hadoop-core-${hadoop-core.version}.jar" />
+            <zipfileset src="${ivy.lib.dir}/hadoop-common-${hadoop-common.version}.jar" />
+            <zipfileset src="${ivy.lib.dir}/hadoop-hdfs-${hadoop-hdfs.version}.jar" />
+            <zipfileset src="${ivy.lib.dir}/hadoop-mapred-${hadoop-mapred.version}.jar" />
             <zipfileset src="${lib.dir}/${automaton.jarfile}" />
+            <zipfileset src="${ivy.lib.dir}/avro-${avro.version}.jar" />
             <zipfileset src="${ivy.lib.dir}/junit-${junit.version}.jar" />
             <zipfileset src="${ivy.lib.dir}/jsch-${jsch.version}.jar" />
             <zipfileset src="${ivy.lib.dir}/jline-${jline.version}.jar" />

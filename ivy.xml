@@ -54,9 +54,11 @@
       conf="compile->master"/>
     <dependency org="log4j" name="log4j" rev="${log4j.version}"
       conf="compile->master"/>
-    <dependency org="org.apache.hadoop" name="hadoop-core" rev="${hadoop-core.version}"
+    <dependency org="org.apache.hadoop" name="hadoop-common" rev="${hadoop-common.version}"
       conf="compile->default;test->default"/>
-    <dependency org="org.apache.hadoop" name="hadoop-test" rev="${hadoop-test.version}"
+    <dependency org="org.apache.hadoop" name="hadoop-hdfs" rev="${hadoop-hdfs.version}"
+      conf="compile->default;test->default"/>
+    <dependency org="org.apache.hadoop" name="hadoop-mapred" rev="${hadoop-mapred.version}"
       conf="compile->default;test->default"/>
     <dependency org="org.mortbay.jetty" name="jetty-util" rev="${jetty-util.version}"
       conf="compile->master"/>

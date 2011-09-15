@@ -66,7 +66,7 @@ public class MapRedUtil {
 
     private static Log log = LogFactory.getLog(MapRedUtil.class);
          
-    public static final String FILE_SYSTEM_NAME = "fs.default.name";
+    public static final String FILE_SYSTEM_NAME = "fs.defaultFS";
 
     /**
      * Loads the key distribution sampler file

@@ -38,6 +38,7 @@ import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.JobContext;
+import org.apache.hadoop.mapreduce.task.JobContextImpl;
 import org.apache.pig.CollectableLoadFunc;
 import org.apache.pig.ExecType;
 import org.apache.pig.FuncSpec;
@@ -1324,7 +1325,7 @@ public class MRCompiler extends PhyPlanVisitor {
                             Job job = new Job(conf);
                             loader.setLocation(location, job);
                             InputFormat inf = loader.getInputFormat();
-                            List<InputSplit> splits = inf.getSplits(new JobContext(
+                            List<InputSplit> splits = inf.getSplits(new JobContextImpl(
                                     job.getConfiguration(), job.getJobID()));
                             List<List<InputSplit>> results = MapRedUtil
                             .getCombinePigSplits(splits, fs

@@ -32,16 +32,23 @@
   <property name="repo.maven.org" value="${mvnrepo}" override="true"/>
   <property name="maven2.pattern"  value="[organisation]/[module]/[revision]/[module]-[revision](-[classifier])"/> 
   <property name="maven2.pattern.ext" value="${maven2.pattern}.[ext]"/>
+  <property name="repo.dir" value="${user.home}/.m2/repository"/>
+  <property name="force-resolve" value="false" override="false"/>
   <!-- pull in the local repository -->
   <include url="${ivy.default.conf.dir}/ivyconf-local.xml"/>
   <settings defaultResolver="default"/>
   <resolvers>
     <ibiblio name="maven2" root="${repo.maven.org}" pattern="${maven2.pattern.ext}" m2compatible="true"/>
+    <filesystem name="fs" m2compatible="true" force="${force-resolve}">
+       <artifact pattern="${repo.dir}/[organisation]/[module]/[revision]/[module]-[revision].[ext]"/>
+       <ivy pattern="${repo.dir}/[organisation]/[module]/[revision]/[module]-[revision].pom"/>
+    </filesystem>
     <chain name="default" dual="true">
       <resolver ref="local"/>
       <resolver ref="maven2"/>
     </chain>
-    <chain name="internal">
+    <chain name="internal" dual="true">
+      <resolver ref="fs"/>
       <resolver ref="local"/>
     </chain>
     <chain name="external">
@@ -50,5 +57,6 @@
   </resolvers>
   <modules>
     <module organisation="org.apache.pig" name=".*" resolver="internal"/>
+    <module organisation="org.apache.hadoop" name="hadoop-.*" resolver="internal"/>
   </modules>
 </ivysettings>

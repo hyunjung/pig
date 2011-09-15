@@ -27,6 +27,9 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.OutputCommitter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
+import org.apache.hadoop.mapreduce.TaskType;
+import org.apache.hadoop.mapreduce.task.JobContextImpl;
+import org.apache.hadoop.mapreduce.task.TaskAttemptContextImpl;
 import org.apache.pig.ResourceSchema;
 import org.apache.pig.StoreFuncInterface;
 import org.apache.pig.StoreMetadata;
@@ -103,7 +106,7 @@ public class PigOutputCommitter extends OutputCommitter {
         MapRedUtil.setupUDFContext(context.getConfiguration());
         // make a copy of the context so that the actions after this call
         // do not end up updating the same context
-        TaskAttemptContext contextCopy = new TaskAttemptContext(
+        TaskAttemptContext contextCopy = new TaskAttemptContextImpl(
                 context.getConfiguration(), context.getTaskAttemptID());
         
         // call setLocation() on the storeFunc so that if there are any
@@ -118,7 +121,7 @@ public class PigOutputCommitter extends OutputCommitter {
             POStore store) throws IOException {
         // make a copy of the context so that the actions after this call
         // do not end up updating the same context
-        JobContext contextCopy = new JobContext(
+        JobContext contextCopy = new JobContextImpl(
                 context.getConfiguration(), context.getJobID());
         
         // call setLocation() on the storeFunc so that if there are any
@@ -165,7 +168,7 @@ public class PigOutputCommitter extends OutputCommitter {
 
     @Override
     public void abortTask(TaskAttemptContext context) throws IOException {        
-        if(context.getTaskAttemptID().isMap()) {
+        if(context.getTaskAttemptID().getTaskType() == TaskType.MAP) {
             for (Pair<OutputCommitter, POStore> mapCommitter : 
                 mapOutputCommitters) {
                 TaskAttemptContext updatedContext = setUpContext(context, 
@@ -184,7 +187,7 @@ public class PigOutputCommitter extends OutputCommitter {
     
     @Override
     public void commitTask(TaskAttemptContext context) throws IOException {
-        if(context.getTaskAttemptID().isMap()) {
+        if(context.getTaskAttemptID().getTaskType() == TaskType.MAP) {
             for (Pair<OutputCommitter, POStore> mapCommitter : 
                 mapOutputCommitters) {
                 TaskAttemptContext updatedContext = setUpContext(context, 
@@ -205,7 +208,7 @@ public class PigOutputCommitter extends OutputCommitter {
     public boolean needsTaskCommit(TaskAttemptContext context)
             throws IOException {
         boolean needCommit = false;
-        if(context.getTaskAttemptID().isMap()) {
+        if(context.getTaskAttemptID().getTaskType() == TaskType.MAP) {
             for (Pair<OutputCommitter, POStore> mapCommitter : 
                 mapOutputCommitters) {
                 TaskAttemptContext updatedContext = setUpContext(context, 
@@ -244,7 +247,7 @@ public class PigOutputCommitter extends OutputCommitter {
     
     @Override
     public void setupTask(TaskAttemptContext context) throws IOException {
-        if(context.getTaskAttemptID().isMap()) {
+        if(context.getTaskAttemptID().getTaskType() == TaskType.MAP) {
             for (Pair<OutputCommitter, POStore> mapCommitter : 
                 mapOutputCommitters) {
                 TaskAttemptContext updatedContext = setUpContext(context, 

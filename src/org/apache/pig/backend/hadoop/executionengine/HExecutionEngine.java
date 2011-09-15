@@ -84,8 +84,8 @@ import org.apache.pig.tools.pigstats.PigStats;
 
 public class HExecutionEngine {
     
-    public static final String JOB_TRACKER_LOCATION = "mapred.job.tracker";
-    private static final String FILE_SYSTEM_LOCATION = "fs.default.name";
+    public static final String JOB_TRACKER_LOCATION = "mapreduce.jobtracker.address";
+    private static final String FILE_SYSTEM_LOCATION = "fs.defaultFS";
     
     private static final String HADOOP_SITE = "hadoop-site.xml";
     private static final String CORE_SITE = "core-site.xml";

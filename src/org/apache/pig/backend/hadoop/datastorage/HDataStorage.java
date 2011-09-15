@@ -40,7 +40,7 @@ import org.apache.pig.backend.datastorage.ElementDescriptor;
 
 public class HDataStorage implements DataStorage {
 
-    private static final String FILE_SYSTEM_LOCATION = "fs.default.name";
+    private static final String FILE_SYSTEM_LOCATION = "fs.defaultFS";
 
     private FileSystem fs;
     private Configuration configuration;

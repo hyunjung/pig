@@ -201,7 +201,7 @@ public class PigContext implements Serializable {
 
     public void setJobtrackerLocation(String newLocation) {
         Properties trackerLocation = new Properties();
-        trackerLocation.setProperty("mapred.job.tracker", newLocation);
+        trackerLocation.setProperty("mapreduce.jobtracker.address", newLocation);
         
         try {
             executionEngine.updateConfiguration(trackerLocation);
